@@ -38,14 +38,30 @@ const jobListing = async (req,res)=>{
     
 }
 
-const jobEdit = (req,res)=>{
+const jobEdit = async (req,res, next)=>{
+    try{
+        const idToEdit = req.query.id;
+        const dataToEdit = req.body;
+        await jobModel.findByIdAndUpdate(idToEdit, dataToEdit)
+
+    }catch(err){
+        next(err)
+    }
+    
     res.json({
         success: true,
-        message: "Edit job API"
+        message: "Job Edited Successfully"
     })
 }
 
-const jobDelete = (req,res)=>{
+const jobDelete = async (req,res,next)=>{
+    try{
+        const IdToDelete = req.query.id;
+        await jobModel.findByIdAndDelete(IdToDelete);
+    }
+    catch(err){
+        next(err)
+    }
     res.json({
         success: true,
         message: "delete job API"
